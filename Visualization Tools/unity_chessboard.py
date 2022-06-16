@@ -103,7 +103,7 @@ class chessboard:
 
 
 if __name__ == '__main__':
-    # python3 unity_chessboard.py --max_dim=10 --x_start=1 --y_start=1 --load_file=chessboard_state.txt --save_file=chessboard_state.txt --x_pos=2.33 --y_pos=9.7"
+    # python3 unity_chessboard.py --max_dim=10 --x_start=1 --y_start=1 --load_file=chessboard_state.txt --save_file=chessboard_state.txt --x_pos=2.33 --y_pos=3.2"
     parser = argparse.ArgumentParser(description="Draws a chessboard representation of the Player's historical position" \
                                                  + " within the game.")
     parser.add_argument("--max_dim", type=int,
@@ -131,7 +131,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     num_steps = 5
-    #features = 2
     scale = 10
 
     random_steps = True
