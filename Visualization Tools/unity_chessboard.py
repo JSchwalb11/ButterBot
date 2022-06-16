@@ -2,8 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import argparse
-import os
-
+import pandas as pd
 
 class chessboard:
     def __init__(self, max_dim, x_start, y_start, x_origin=0, y_origin=0):
@@ -76,7 +75,7 @@ class chessboard:
                     if x_val is not None and y_val is not None:
                         loc.append((x_val, y_val))
             if len(loc) == 0:
-                loc = self.current_location
+                loc.append(self.current_location)
 
             self.historical_locations = loc
         except FileNotFoundError:
@@ -98,9 +97,15 @@ class chessboard:
             ...
 
 
+    def clear_save_file(self, fn):
+        with open(fn, 'w') as fp:
+            ...
+
+
 if __name__ == '__main__':
+    # python3 unity_chessboard.py --max_dim=10 --x_start=1 --y_start=1 --load_file=chessboard_state.txt --save_file=chessboard_state.txt --x_pos=2.33 --y_pos=9.7"
     parser = argparse.ArgumentParser(description="Draws a chessboard representation of the Player's historical position" \
-                                                 + " within the game")
+                                                 + " within the game.")
     parser.add_argument("--max_dim", type=int,
                         help="Higher dimension yields a more granular position.\n" \
                              + "ex. max_dim=5: 5^2 possible locations, " \
@@ -125,16 +130,31 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    #board = chessboard(max_dim=args.max_dim, x_start=args.x_start, y_start=args.y_start)
-    #board.load_state(fn=args.load_file)
-    #random_floats = np.random.random(2)
-    #x_pos = random_floats[0]*5
-    #y_pos = random_floats[1]*5
-    #board.draw((args.x_pos, args.y_pos))
-    #board.draw((x_pos, y_pos))
-    #board.draw_no_update()
+    num_steps = 5
+    #features = 2
+    scale = 10
+
+    random_steps = True
+    save_state = False
+    steps = list()
+
+    if random_steps == True:
+        df = pd.DataFrame(np.random.random(num_steps * 2).reshape((num_steps, 2)), columns=['x_pos', 'y_pos'])
+        for val in df.values:
+            steps.append(val * scale)
+
+    else:
+        steps.append((1., 2.))
+        steps.append((3., 1.))
+        steps.append((2., 3.))
+
     board = chessboard(max_dim=args.max_dim, x_start=args.x_start, y_start=args.y_start)
-    board.draw((1., 2.))
-    board.draw((3., 1.))
-    board.draw((2., 3.))
-    board.save_state(fn=args.save_file)
+    board.load_state(fn=args.load_file)
+    for step in steps:
+        board.draw((step[0], step[1]))
+
+    if save_state == True:
+        board.save_state(fn=args.save_file)
+    else:
+        board.clear_save_file(fn=args.load_file)
+
