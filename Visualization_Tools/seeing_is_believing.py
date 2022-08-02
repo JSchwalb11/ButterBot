@@ -2,8 +2,9 @@ import os
 import subprocess
 import mmap
 import argparse
+import sys
 
-
+"""
 def hello_world_mmap():
     # write a simple example file
     with open("hello.txt", "wb") as f:
@@ -24,9 +25,14 @@ def hello_world_mmap():
         print(mm.readline())  # prints b"Hello  world!\n"
         # close the map
         mm.close()
-
+"""
 
 if __name__ == '__main__':
+    l = []
+    for arg in sys.argv:
+        l.append(arg)
+    print(l)
+    """
     yolov5_dir = "C:\\Users\\JoeyS\\PycharmProjects\\yolov5"
     command = "python detect.py --weights yolov5s.pt --img 640 --conf 0.25 --source data/images"
 
@@ -36,6 +42,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    print(args.mmf_ptr)
+    path = "C:\\Users\\JoeyS\\PycharmProjects\\ButterBot\\MMF"
+    fn = str(args.mmf_ptr)
+    fp = os.path.join(path, fn)
+    with open(fp, 'w') as f:
+        f.write("Test")
+        f.close()
+    """
 
 

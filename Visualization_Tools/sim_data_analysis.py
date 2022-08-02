@@ -160,6 +160,7 @@ if __name__ == '__main__':
         fig.supylabel("TT Scenario (s)")
         fig.suptitle(titles[i])
         plt.savefig(titles[i])
+        breakpoint()
 
     #participant_ids = [participant_id, participant_id + 1, participant_id + 2, participant_id + 3]
 
