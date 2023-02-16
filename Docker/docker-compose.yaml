@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  python_service:
+    container_name: yolov5_training
+    build: ./
+    image: python-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - C:\Users\Joey\PycharmProjects\yolov5\:/code/
+      - D:\Datasets\v3_0_yolo_data\:/data/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    ipc: host
+    pid: host
+    ulimits:
+      stack: 67108864
+      memlock: -1
