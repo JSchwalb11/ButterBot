@@ -23,7 +23,11 @@ class image:
             self.save_image()
 
     def generate_label(self):
-        return int(self.fp.split("\\")[3].split(".")[0]) - 1  # 1-indexed to 0-indexed
+        label = int(self.fp.split("\\")[3].split(".")[0]) - 1  # 1-indexed to 0-indexed
+        if label > 3:
+            breakpoint()
+        return label
+
 
     def generate_yolo_label(self):
         self.yolo_label = str(self.class_id) + " " + \
@@ -49,6 +53,7 @@ class image:
         fn = self.fp.split("\\")[-1].split(".")[0]
 
         path = os.path.join(self.workspace.yolo_data_dir, "images")
+        #if os.path.isdir(path) is False: os.mkdir(path)
         self.data.save(os.path.join(path, fn + ".png"), format="png")
 
         path = os.path.join(self.workspace.yolo_data_dir, "labels")

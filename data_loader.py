@@ -115,15 +115,17 @@ def retrieve_contoured_images(train_images, save_dir, input_type, dim, num_class
 
 
 if __name__ == '__main__':
-    data_dir = "C:\\Data\\Latest"
-    contour_save_dir = "C:\\Data\\Contours\\"
-    pca_save_dir = "C:\\Data\\PCA\\"
+    data_dir = "D:\\UnityData\\v3_0"
+    contour_save_dir = "D:\\UnityData\\v3_0\\Contours"
+    #pca_save_dir = "C:\\Data\\PCA\\"
     debug_contour_save_dir = "C:\\Data\\Contours\\Debug\\Reference Contours\\"
 
     input_type = 'b/w'
     #input_type = 'rgb'
 
-    num_classes = 6
+
+
+    num_classes = len(os.listdir(data_dir))
     paths = [contour_save_dir, debug_contour_save_dir]
 
     for i in range(0, num_classes):

@@ -101,7 +101,8 @@ def get_all_ids(df):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv(os.path.join(os.getcwd(), "simulation_data.csv"))
+    #df = pd.read_csv(os.path.join(os.getcwd(), "simulation_data.csv"))
+    df = pd.read_csv(os.path.join(os.getcwd(), "control_simulation_data.csv"))
     remove_empty_columns(df)
     hostage_df, drone_df = separate_drone_times(df)
     del(df)
@@ -109,33 +110,51 @@ if __name__ == '__main__':
     hostage_df = replace_nan_with_zero(hostage_df)
     drone_df = replace_nan_with_zero(drone_df)
 
-    hostage_df = hostage_df.drop(labels=[19,38], axis=0)
-    drone_df = drone_df.drop(labels=[19,38], axis=0)
+    #hostage_df = hostage_df.drop(labels=[19,38], axis=0)
+    #drone_df = drone_df.drop(labels=[19,38], axis=0)
 
 
     ids = get_all_ids(hostage_df)
 
     client_times = dict()
 
-    for id in ids:
+    save_dir = os.getcwd()
+    plt.figure(figsize=(16, 10), dpi=500)
+
+    for t in ids:
+        id = int(t)
         client_times[id] = dict()
         client_times[id]['condition'] = get_participant_condition(hostage_df, participant_id=id)
         client_times[id]['Hostage_times'] = get_participant_data(hostage_df, participant_id=id, use_id=True)
         client_times[id]['Drone_times'] = get_participant_data(drone_df, participant_id=id, use_id=True)
 
-    print(str(len(client_times)) + " Participants")
-    participant_id = 42
+        plt.plot(client_times[id]['Hostage_times'].cumsum(), label=f'Participant {id}')
+        #plt.plot(client_times[id]['Drone_times'][:16].cumsum(), label=f'Participant {id}')
+        plt.ylabel("Time in Simulation (s)")
+        plt.xlabel("Hostages Rescued")
+        plt.title(f"Hostage Spotting\n{len(ids)} Participants")
 
+    save_str = f"Without_AA_All_Participants"
+    # plt.legend()
+    #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    # plt.show()
+    plt.savefig(os.path.join(save_dir, save_str))
+    plt.clf()
+
+
+    print(str(len(client_times)) + " Participants")
+    participant_id = np.random.randint(1, len(client_times))
+    """
     types = ['Hostage_times', 'Drone_times']
     titles = ['Objective - Hostage Rescue', 'Objective - Hostage Spotting']
     for i, type in enumerate(types):
         tmp = type.split("_")[0]
-        """plt.figure()
-        plt.plot(client_times[participant_id][type].cumsum())
-        plt.ylabel("Time in Simulation (s)")
-        plt.xlabel(tmp + " Rescued")
-        plt.title("Time Spent vs Hostage Rescued\nParticipant {0}".format(participant_id))
-        plt.show()"""
+        #plt.figure()
+        #plt.plot(client_times[participant_id][type].cumsum())
+        #plt.ylabel("Time in Simulation (s)")
+        #plt.xlabel(tmp + " Rescued")
+        #plt.title("Time Spent vs Hostage Rescued\nParticipant {0}".format(participant_id))
+        #plt.show()
 
 
         fig, axs = plt.subplots(2,2, sharex=True, sharey=True)
@@ -160,8 +179,8 @@ if __name__ == '__main__':
         fig.supylabel("TT Scenario (s)")
         fig.suptitle(titles[i])
         plt.savefig(titles[i])
-        breakpoint()
-
+        #breakpoint()
+    """
     #participant_ids = [participant_id, participant_id + 1, participant_id + 2, participant_id + 3]
 
     missing_participants = []

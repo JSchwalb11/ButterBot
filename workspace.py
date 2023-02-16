@@ -1,4 +1,5 @@
 import os
+import pathlib as pl
 
 
 
@@ -9,6 +10,8 @@ class workspace():
                  ref_contours_dir="C:\\Data\\Contours\\Debug\\Reference Contours\\",
                  yolo_data_dir="C:\\Users\\JoeyS\\PycharmProjects\\datasets\\",
                  debug=False):
+
+        #tmp = pl.Path(data_dir)
 
         self.data_dir = data_dir
         self.contour_dir = contour_dir
@@ -22,6 +25,7 @@ class workspace():
 
     def create_directories(self):
         paths = [self.contour_dir, self.ref_contours_dir]
+
         num_classes = len(os.listdir(self.data_dir))
         for i in range(0, num_classes):
             for path in paths:
@@ -39,5 +43,6 @@ class workspace():
             try:
                 os.mkdir(path)
                 if self.debug: print("Created Directory")
-            except OSError:
+            except OSError as e:
                 if self.debug: print("Directory Already Exists")
+
