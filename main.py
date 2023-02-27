@@ -10,18 +10,24 @@ if __name__ == '__main__':
     yolo_data_dir="D:\\Datasets\\v3_0_yolo_data\\"
     img_dir = os.path.join(yolo_data_dir, "images")
     label_dir = os.path.join(yolo_data_dir, "labels")
-    workspace = workspace(debug=debug, data_dir=data_dir, yolo_data_dir=yolo_data_dir)
-    dataloader = dataloader(workspace=workspace, debug=debug, workers=24)
+    #workspace = workspace(debug=debug, data_dir=data_dir, yolo_data_dir=yolo_data_dir)
+    #dataloader = dataloader(workspace=workspace, debug=debug, workers=24)
     # instantiate AI Model here
     # training data located in yolo_data_dir
-    print("Ratio of images kept: {0}/{1} ({2})".format(dataloader.fps_used, len(dataloader.fps), dataloader.fps_used/len(dataloader.fps)))
+    #print("Ratio of images kept: {0}/{1} ({2})".format(dataloader.fps_used, len(dataloader.fps), dataloader.fps_used/len(dataloader.fps)))
 
     X = discover_files(img_dir, debug=False)
     y = discover_files(label_dir, debug=False)
     assert len(X) == len(y)
 
     X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y)
-
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y, train_size=0.6, val_size=0.25, test_size=0.15)
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y, train_size=0.5, val_size=0.25, test_size=0.25)
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y, train_size=0.4, val_size=0.25, test_size=0.35)
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y, train_size=0.3, val_size=0.25, test_size=0.45)
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y, train_size=0.2, val_size=0.25, test_size=0.55)
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y, train_size=0.1, val_size=0.25, test_size=0.65)
+    #X_train, X_val, X_test, y_train, y_val, y_test = permute_files(X, y)
     train_val_test_dict = dict()
     train_val_test_dict['train'] = X_train, y_train
     train_val_test_dict['val'] = X_val, y_val
